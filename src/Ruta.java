@@ -27,6 +27,8 @@ public class Ruta {
 	//CONSTRUCTOR------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------
 	public Ruta(List<Obra>obras,Obra origenGrafoAuxiliar){
+		diasDescanso=0.0;
+		diasRecorrido=0.0;
 		posicionUltObraEnTSP=0;
 		soyFactible=true;
 		this.obras=obras;
@@ -35,6 +37,7 @@ public class Ruta {
 		this.costosTotales=calcularCostosDeUnaRuta();
 		this.origenGrafoAuxiliar=origenGrafoAuxiliar;
 		this.ultimaObra=obras.get(obras.size()-2);
+
 	}
 	
 	//-----------------------------------------------------------------------------------------
@@ -87,7 +90,17 @@ public class Ruta {
 		}
 		return tiempoRuta;
 	}
-	
+	/**
+	 * Metodo que da la distancia total de la ruta
+	 * @return distancia total de la ruta
+	 */
+	public Double darDistanciaTotal(){
+		Double respuesta=0.0;
+		for(int i=1;i<listaMunicipios.size();i++){
+			respuesta+=Auxiliar.DISTANCIAS.get(listaMunicipios.get(i-1)+" "+listaMunicipios.get(i));
+		}
+		return respuesta;
+	}
 	/**
 	 * Devuelve la lista de ids de todas las obras
 	 * @return List con los ids de todas las obras
@@ -105,6 +118,15 @@ public class Ruta {
 			}
 			}
 		return listaIDs;
+	}
+	
+	/**
+	 * Devuelve true si la obra esta en la ruta
+	 * @param o obra que se quiere revisar
+	 * @return true si la obra esta en la ruta
+	 */
+	public boolean estaObraEnRuta(Obra o){
+		return obras.contains(o);
 	}
 	
 }

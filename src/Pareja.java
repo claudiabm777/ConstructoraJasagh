@@ -3,13 +3,24 @@ import java.util.List;
 
 
 public class Pareja {
+	//-----------------------------------------------------------------------------------------
+	//ATRIBUTOS--------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public Obra obra1;
 	public Obra obra2;
+	
+	//-----------------------------------------------------------------------------------------
+	//CONSTRUCTOR------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public Pareja(Obra obra1, Obra obra2){
 		this.obra1=obra1;
 		this.obra2=obra2;
 	}
-	
+	/**
+	 * Da la lista ordenada de acuerdo a la obra mas cercana de la pareja, a la ultima obra del tsp
+	 * @param ultimaTSP
+	 * @return lista con las obras en el orden correspondiente
+	 */
 	public List<Obra> darListaObrasOrdenadas(Obra ultimaTSP){
 		
 		List<Obra>lista=new ArrayList<Obra>();
