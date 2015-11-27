@@ -24,6 +24,7 @@ public class Grasp {
 	public Double tiempoComputacionalSetCovering;
 	public Double distanciaTotalRecorrida;
 	public List<Ruta> listaSetCovering;
+	public Double objval;
 	
 	//-----------------------------------------------------------------------------------------
 	//CONSTRUCTOR------------------------------------------------------------------------------
@@ -37,17 +38,20 @@ public class Grasp {
 	 * Metodo con el procedimiento iterativo Grasp
 	 * @return objeto ruteo el cual contiene la lista de rutas y el costo total para el problema de ruteo
 	 */
-	public Ruteo procedimientoIterativoGrasp(){
+	public Ruteo procedimientoIterativoGrasp(Auxiliar a){
 		 double time1= System.currentTimeMillis();
-		Auxiliar a=new Auxiliar();
+		
 		Double mejorCosto=9999999999999999.9;
 		Ruteo mejorRuteo=null;
 		listaSetCovering=new ArrayList<Ruta>();
 		for(int i=0;i<k;i++){
 			HeuristicasTSPManagger h=new HeuristicasTSPManagger();
 			List<Obra>tsp=h.CWJPC();
+
 			List<Obra>tsp1=a.busquedaLocal(tsp);
+		
 			Ruteo r2=a.split(tsp1);
+			System.out.println(r2.rutas);
 			listaSetCovering.addAll(r2.rutas);
 			if(mejorCosto>r2.costoTotal){
 				mejorCosto=r2.costoTotal;
@@ -108,45 +112,50 @@ public class Grasp {
 		if(fo==FO1){
 			SetCovering sc=new SetCovering();
 			respuesta=sc.generateModel(c, a);
-			Double costosRuteo=sc.fo;
+			
 			List<Ruta>rutasRuteo=new ArrayList<Ruta>();
 			for(int i=0;i<respuesta.size();i++){
 				Ruta ruta=listaSetCovering.get(respuesta.get(i));
 				rutasRuteo.add(ruta);
 			}
+			Double costosRuteo=darCostoRuteo(rutasRuteo);
+			objval=sc.fo;
 			Ruteo ruteo=new Ruteo(costosRuteo,rutasRuteo);
 			resultado=ruteo;
 		}else if(fo==FO2){
 			SetCovering2 sc=new SetCovering2();
 			respuesta=sc.generateModel(c,t, a);
-			Double costosRuteo=sc.fo;
+			objval=sc.fo;
 			List<Ruta>rutasRuteo=new ArrayList<Ruta>();
 			for(int i=0;i<respuesta.size();i++){
 				Ruta ruta=listaSetCovering.get(respuesta.get(i));
 				rutasRuteo.add(ruta);
 			}
+			Double costosRuteo=darCostoRuteo(rutasRuteo);
 			Ruteo ruteo=new Ruteo(costosRuteo,rutasRuteo);
 			resultado=ruteo;
 		}else if(fo==FO3){
 			SetCovering3 sc=new SetCovering3();
 			respuesta=sc.generateModel(c, a);
-			Double costosRuteo=sc.fo;
+			objval=sc.fo;
 			List<Ruta>rutasRuteo=new ArrayList<Ruta>();
 			for(int i=0;i<respuesta.size();i++){
 				Ruta ruta=listaSetCovering.get(respuesta.get(i));
 				rutasRuteo.add(ruta);
 			}
+			Double costosRuteo=darCostoRuteo(rutasRuteo);
 			Ruteo ruteo=new Ruteo(costosRuteo,rutasRuteo);
 			resultado=ruteo;
 		}else if(fo==FO4){
 			SetCovering4 sc=new SetCovering4();
 			respuesta=sc.generateModel(c,t, a);
-			Double costosRuteo=sc.fo;
+			objval=sc.fo;
 			List<Ruta>rutasRuteo=new ArrayList<Ruta>();
 			for(int i=0;i<respuesta.size();i++){
 				Ruta ruta=listaSetCovering.get(respuesta.get(i));
 				rutasRuteo.add(ruta);
 			}
+			Double costosRuteo=darCostoRuteo(rutasRuteo);
 			Ruteo ruteo=new Ruteo(costosRuteo,rutasRuteo);
 			resultado=ruteo;
 		}
@@ -166,11 +175,25 @@ public class Grasp {
 		}
 		return respuesta;
 	}
-	public void imprimirResultados(int fo,File archivoResultados){
+	public void imprimirResultados(int fo,File archivoResultados,Ruteo r){
+		int numo=0;
+		for(int i=0;i<r.rutas.size();i++){
+			Ruta ruta=r.rutas.get(i);
+			numo+=ruta.obras.size()-2;
+		}
+		distanciaTotalRecorrida=darDistanciaTotal(r);
+		tiempoComputacionalTotal=darTiempoTotal();
 		try{
 		FileWriter fw = new FileWriter(archivoResultados.getAbsoluteFile());
 		
 		BufferedWriter bw = new BufferedWriter(fw);
+		bw.newLine();
+		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		bw.newLine();
+		bw.write("                       GRASP + SET COVERING                      ");
+		bw.newLine();
+		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		bw.newLine();
 		if(fo==FO1){
 			bw.write("La funcion objetivo usada fue: Minimizar Costos");
 		}else if(fo==FO2){
@@ -185,6 +208,8 @@ public class Grasp {
 		bw.newLine();
 		bw.write("Distancia total recorrida por todos los interventores: "+distanciaTotalRecorrida);
 		bw.newLine();
+		bw.write("Numero obras: "+numo);
+		bw.newLine();
 		bw.write("Tiempo computacional de GRASP + Set Covering: "+tiempoComputacionalTotal);
 		bw.newLine();
 		bw.write("Numero de iteraciones de GRASP: "+k);
@@ -192,11 +217,43 @@ public class Grasp {
 		bw.write("Tiempo computacional promedio de una iteración de GRASP: "+tiempoComputacionalIterGrasp);
 		bw.newLine();
 		bw.write("Tiempo computacional del Set Covering: "+tiempoComputacionalSetCovering);
-		
-		
-				
+		bw.newLine();	
+		bw.write("FO: "+objval);
+		bw.newLine();	
 		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		bw.newLine();	
+		bw.write("************************* RUTAS *********************************");
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		for(int i=0;i<r.rutas.size();i++){
+			Ruta ruta=r.rutas.get(i);
+			bw.newLine();	
+			bw.write("---------------INFORMACION RUTA "+(i+1)+":");
+			bw.newLine();	
+			bw.write("      * Id: "+(i+1));
+			bw.newLine();	
+			bw.write("      * Dias de recorrido: "+ruta.diasRecorrido/24.0);
+			bw.newLine();	
+			bw.write("      * Dias de descanso: "+ruta.diasDescanso/24.0);
+			bw.newLine();	
+			bw.write("      * Cantidad de obras: "+(ruta.obras.size()-2));
+			bw.newLine();	
+			bw.write("      * Costo por recorrido: "+ruta.costoRecorrido);
+			bw.newLine();	
+			bw.write("      * Costo por descanso: "+ruta.costoDescanso);
+			bw.newLine();	
+			bw.write("      * OBRAS: ");
+			bw.newLine();	
+			bw.write("               "+ruta.obras.toString());
+		}
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		bw.newLine();	
+		bw.write("************************* FIN RUTAS *****************************");
+		bw.newLine();	
+		bw.write("*****************************************************************");
 		bw.close();
 		
 		JOptionPane.showMessageDialog (null, "El archivo se guardo con los parametros satisfactoriamente.", "Archivo Guardado", JOptionPane.INFORMATION_MESSAGE);
@@ -205,10 +262,93 @@ public class Grasp {
 
 		}
 	}
-	public static void main(String[] args) {
-		Grasp g=new Grasp(3,4);
-		g.procedimientoIterativoGrasp();
-		g.setCovering();
+	
+	public void imprimirResultadosSoloGrasp(File archivoResultados,Ruteo r){
+		distanciaTotalRecorrida=darDistanciaTotal(r);
+		int numo=0;
+		for(int i=0;i<r.rutas.size();i++){
+			Ruta ruta=r.rutas.get(i);
+			numo+=ruta.obras.size()-2;
+		}
+		try{
+		FileWriter fw = new FileWriter(archivoResultados.getAbsoluteFile());
 		
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.newLine();
+		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		bw.newLine();
+		bw.write("                              GRASP                              ");
+		bw.newLine();
+		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");	
+		bw.newLine();
+		bw.write("Numero obras: "+numo);
+		bw.newLine();
+		bw.write("Distancia total recorrida por todos los interventores: "+distanciaTotalRecorrida);
+		bw.newLine();
+		bw.write("Numero de iteraciones de GRASP: "+k);
+		bw.newLine();
+		bw.write("Tiempo computacional promedio de una iteración de GRASP: "+tiempoComputacionalIterGrasp);
+		bw.newLine();
+		
+		bw.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		bw.newLine();	
+		bw.write("************************* RUTAS *********************************");
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		for(int i=0;i<r.rutas.size();i++){
+			Ruta ruta=r.rutas.get(i);
+			bw.newLine();	
+			bw.write("---------------INFORMACION RUTA "+(i+1)+":");
+			bw.newLine();	
+			bw.write("      * Id: "+(i+1));
+			bw.newLine();	
+			bw.write("      * Dias de recorrido: "+ruta.diasRecorrido/24.0);
+			bw.newLine();	
+			bw.write("      * Dias de descanso: "+ruta.diasDescanso/24.0);
+			bw.newLine();	
+			bw.write("      * Cantidad de obras: "+(ruta.obras.size()-2));
+			bw.newLine();	
+			bw.write("      * Costo por recorrido: "+ruta.costoRecorrido);
+			bw.newLine();	
+			bw.write("      * Costo por descanso: "+ruta.costoDescanso);
+			bw.newLine();	
+			bw.write("      * OBRAS: ");
+			bw.newLine();	
+			bw.write("               "+ruta.obras.toString());
+		}
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		bw.newLine();	
+		bw.write("************************* FIN RUTAS *****************************");
+		bw.newLine();	
+		bw.write("*****************************************************************");
+		bw.close();
+		
+		JOptionPane.showMessageDialog (null, "El archivo se guardo con los parametros satisfactoriamente.", "Archivo Guardado", JOptionPane.INFORMATION_MESSAGE);
+		}catch(Exception ee){
+			JOptionPane.showMessageDialog (null, "No se llevó a cabo la simulación.", "Error", JOptionPane.ERROR_MESSAGE);
+
+		}
 	}
+	
+//	public static void main(String[] args) {
+//		Grasp g=new Grasp(3,4);
+//		g.procedimientoIterativoGrasp();
+//		List<Obra>listObras=Auxiliar.OBRAS;
+//		for(int i=0;i<Auxiliar.OBRAS.size();i++){
+//			 for(int j=0;j<g.listaSetCovering.size();j++){
+//				 if(g.listaSetCovering.get(j).estaObraEnRuta(listObras.get(i))){
+//					 System.out.println(1);
+//				 }else{
+//					 //System.out.println(0);
+//				 }
+//			 }
+//		 }
+//		
+//		//Ruteo r=g.setCovering();
+//		//System.out.println(g.darDistanciaTotal(r));
+//		
+//	}
 }

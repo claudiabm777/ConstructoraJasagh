@@ -6,6 +6,7 @@ public class Ruta {
 	//-----------------------------------------------------------------------------------------
 	//ATRIBUTOS--------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------
+	
 	public List<Obra>obras;
 	public Double tiempoTotal;
 	public Double costosTotales;
@@ -81,7 +82,11 @@ public class Ruta {
 				nombreMunicipioOrigen="Bogota - Colombia";
 			}
 			Obra obraSiguiente=obras.get(i);
-			tr=Auxiliar.calcularTiempoTrayecto(nombreMunicipioOrigen,obraSiguiente,diasDescanso,diasRecorrido);
+			Dob des=new Dob();
+			Dob rec=new Dob();
+			tr=Auxiliar.calcularTiempoTrayecto(nombreMunicipioOrigen,obraSiguiente,des,rec);
+			diasRecorrido+=rec.num;
+			diasDescanso+=des.num;
 			if(tr<=-1){
 				soyFactible=false;
 			}
@@ -97,7 +102,7 @@ public class Ruta {
 	public Double darDistanciaTotal(){
 		Double respuesta=0.0;
 		for(int i=1;i<listaMunicipios.size();i++){
-			respuesta+=Auxiliar.DISTANCIAS.get(listaMunicipios.get(i-1)+" "+listaMunicipios.get(i));
+			respuesta+=Auxiliar.DISTANCIAS.get(listaMunicipios.get(i-1)+" - "+listaMunicipios.get(i));
 		}
 		return respuesta;
 	}

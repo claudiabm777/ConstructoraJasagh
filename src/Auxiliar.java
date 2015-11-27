@@ -33,7 +33,8 @@ public class Auxiliar {
 	public static List<Obra> OBRAS=new ArrayList<Obra>();
 	public static HashMap<String, Double>DISTANCIAS=new HashMap<String, Double>();
 	public static HashMap<String, Integer>MUNICIPIO_ID=new HashMap<String, Integer>();
-	
+	public static HashMap<String, String>MUNICIPIO_LONG=new HashMap<String, String>();
+	public static HashMap<String, String>MUNICIPIO_LAT=new HashMap<String, String>();
 	//-----------------------------------------------------------------------------------------
 	//CONSTRUCTOR----------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------
@@ -180,11 +181,14 @@ public class Auxiliar {
 				String municipioN = sheet.getCell(1,i).getContents();
 				String munN=municipioN.split(" - ")[0];
 				String depN=municipioN.split(" - ")[1];
-				String lonN = sheet.getCell(2,i).getContents().replace(",", ".");
-				String latN = sheet.getCell(3,i).getContents().replace(",", ".");
-				Municipio municipio=new Municipio(Integer.parseInt(idN),munN,depN,Double.parseDouble(lonN),Double.parseDouble(latN));
+				String lonN = sheet.getCell(2,i).getContents().replace("?", ".");
+				String latN = sheet.getCell(3,i).getContents().replace("?", ".");
+				System.out.println(lonN);
+				Municipio municipio=new Municipio(Integer.parseInt(idN),munN,depN,lonN,latN);
 				MUNICIPIOS.add(municipio);
 				MUNICIPIO_ID.put(munN+" - "+depN, Integer.parseInt(idN));
+				MUNICIPIO_LONG.put(munN+" - "+depN, lonN);
+				MUNICIPIO_LAT.put(munN+" - "+depN, latN);
 			}
 			workbook.close();
 		}catch(Exception e){
@@ -276,7 +280,7 @@ public class Auxiliar {
 	 * @return Double con el tiempo del trayecto. Si no se puede ir de un 
 	 * lugar a otro, se devuelve un número negativo
 	 */
-	public static Double calcularTiempoTrayecto(String nombreMunicipioOrigen,Obra obraSiguiente,Double des,Double rec){
+	public static Double calcularTiempoTrayecto(String nombreMunicipioOrigen,Obra obraSiguiente,Dob des,Dob rec){
 		Double respuesta=0.0;
 		Integer idOrigen=MUNICIPIO_ID.get(nombreMunicipioOrigen);
 		Integer idDestino;
@@ -290,12 +294,12 @@ public class Auxiliar {
 			Double tiempoDist=distancia/Auxiliar.VELOCIDAD_VEHICULOS;
 			Double tiempoInspeccionDescanso=DURACIONES_INSPECCION.get(idTipoProyecto)+TIEMPOS_DESCANSO.get(idTipoProyecto);
 			if(nombreMunicipioOrigen.equals(obraSiguiente.municipio+" - "+obraSiguiente.departamento)){
-				des+=tiempoInspeccionDescanso;
-				rec+=tiempoDist;
+				des.num+=tiempoInspeccionDescanso;
+				rec.num+=tiempoDist;
 				respuesta=tiempoDist+tiempoInspeccionDescanso;
 			}else{
-				des+=tiempoInspeccionDescanso+Auxiliar.HORAS_DESPUES_LLEGAR_MUNICIPIO;
-				rec+=tiempoDist;
+				des.num+=tiempoInspeccionDescanso+Auxiliar.HORAS_DESPUES_LLEGAR_MUNICIPIO;
+				rec.num+=tiempoDist;
 				respuesta=tiempoDist+Auxiliar.HORAS_DESPUES_LLEGAR_MUNICIPIO+tiempoInspeccionDescanso;
 			}
 		}
@@ -306,33 +310,33 @@ public class Auxiliar {
 				return distancia;
 			}
 			Double tiempoDist=distancia/Auxiliar.VELOCIDAD_VEHICULOS;
-			rec+=tiempoDist;
+			rec.num+=tiempoDist;
 			respuesta=tiempoDist;
 		}
 		return respuesta;
 	}
 	
-	public static void main(String[] args) {
-		Auxiliar a=new Auxiliar();
-		HeuristicasTSPManagger h=new HeuristicasTSPManagger();
-		List<Obra>tsp=h.CWJPC();
-		Ruteo r1=a.split(tsp);
-		System.out.println("Costos 1: "+r1.costoTotal);
-		List<Obra>tsp1=a.busquedaLocal(tsp);
-		Ruteo r2=a.split(tsp1);
-		System.out.println("Costos 2: "+r2.costoTotal);
-		System.out.println(a.revisarFactibilidad(tsp1));
-		System.out.println(a.revisarFactibilidad(tsp));
-//		Ruteo r=a.split(tsp);
-//		System.out.println(r.costoTotal);
-//		for(int i=0;i<r.rutas.size();i++){
-//			Ruta rut=r.rutas.get(i);
-//			System.out.println("Ruta "+i+":");
-//			for(int j=0;j<rut.obras.size();j++){
-//				System.out.println("    "+rut.obras.get(j));
-//			}
-//		}
-			
-	}
+//	public static void main(String[] args) {
+//		Auxiliar a=new Auxiliar();
+//		HeuristicasTSPManagger h=new HeuristicasTSPManagger();
+//		List<Obra>tsp=h.CWJPC();
+//		Ruteo r1=a.split(tsp);
+//		System.out.println("Costos 1: "+r1.costoTotal);
+//		List<Obra>tsp1=a.busquedaLocal(tsp);
+//		Ruteo r2=a.split(tsp1);
+//		System.out.println("Costos 2: "+r2.costoTotal);
+//		System.out.println(a.revisarFactibilidad(tsp1));
+//		System.out.println(a.revisarFactibilidad(tsp));
+////		Ruteo r=a.split(tsp);
+////		System.out.println(r.costoTotal);
+////		for(int i=0;i<r.rutas.size();i++){
+////			Ruta rut=r.rutas.get(i);
+////			System.out.println("Ruta "+i+":");
+////			for(int j=0;j<rut.obras.size();j++){
+////				System.out.println("    "+rut.obras.get(j));
+////			}
+////		}
+//			
+//	}
 	
 }
