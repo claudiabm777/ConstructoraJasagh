@@ -120,11 +120,5 @@ public class HeuristicasTSPManagger {
 	    }
 	    return tspFinal;
 	}
-//	public static void main(String[] args) {
-//		Auxiliar auxiliar =new Auxiliar();
-//		HeuristicasTSPManagger h=new HeuristicasTSPManagger();
-//		h.CWJPC();
-//		
-//		
-//	}
+
 }

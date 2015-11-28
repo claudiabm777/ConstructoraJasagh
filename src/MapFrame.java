@@ -7,7 +7,7 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 public class MapFrame {
-	
+	//Esta clase da soporte a los mapas
 	private JFrame frame = new JFrame("Mapa");
 	
 	public MapFrame(String htmlFile) {

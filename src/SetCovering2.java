@@ -18,7 +18,6 @@ public class SetCovering2 {
 	//							ATRIBUTES 
 	//================================================================
 	
-	//SETS
 	
 	//VARIABLES
 	public GRBVar[]x;
@@ -94,8 +93,6 @@ public class SetCovering2 {
 	}
 
 
-	
-	
 	
 	
 }

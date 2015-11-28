@@ -6,7 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class FileHandler {
-	
+	//-----------------------------------------------------------------------------------------
+	//ATRIBUTOS--------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public final String API_KEY = "AIzaSyAimlUUEJSiGvOMzb_1S_VlHUipA8B_TY0";
 	
 	public int zoom;
@@ -20,7 +22,9 @@ public class FileHandler {
 	public String routeColor;
 	
 	public List<Coordinate> coordinates;
-	
+	//-----------------------------------------------------------------------------------------
+	//CONSTRUCTOR--------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public FileHandler(int zoom, Coordinate center, Coordinate origin, Coordinate destination, List<Coordinate> coordinates) {
 		this.zoom = zoom;
 		this.center = center;
@@ -29,7 +33,9 @@ public class FileHandler {
 		this.routeColor = routeColor;
 		this.coordinates = coordinates;
 	}
-
+	//-----------------------------------------------------------------------------------------
+	//METODOS--------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public int getZoom() {
 		return zoom;
 	}

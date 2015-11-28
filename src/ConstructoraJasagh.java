@@ -6,7 +6,12 @@ import javax.swing.JOptionPane;
 
 
 public class ConstructoraJasagh {
-	
+	/**
+	 * Ruteo solo aplicando grasp
+	 * @param k numero de iteraciones de grasp
+	 * @param a auxiliar que se usa para los algoritmos
+	 * @return Ruteo con la lista de rutas y el costo total
+	 */
 	public Ruteo grasp(int k, Auxiliar a){
 		JFrame parentFrame = new JFrame();
 		 
@@ -29,6 +34,14 @@ public class ConstructoraJasagh {
 		}
 		return null;
 	}
+	
+	/**
+	 * Ruteo aplicando GRASP y luego set covering
+	 * @param k numero de iteraciones de grasp
+	 * @param fo funcion objetivo de set covering
+	 * @param a auxiliar de algoritmos
+	 * @return Ruteo con las rutas encontradas y los costos
+	 */
 	public Ruteo graspMasSetCovering(int k,int fo,Auxiliar a){
 		JFrame parentFrame = new JFrame();
 		 

@@ -126,6 +126,11 @@ public class Auxiliar {
 		return respuesta;
 	}
 	
+	/**
+	 * Metodo que realiza la busqueda local del procedimiento iterativo. Se realizan cambios 2 Opt
+	 * @param tsp - lista de obras en el orden del TSP
+	 * @return un nuevo y mejor TSP
+	 */
 	public List<Obra>busquedaLocal(List<Obra>tsp){
 		tsp.add(null);
 		Ruta r=new Ruta(tsp,null);
@@ -157,6 +162,11 @@ public class Auxiliar {
 		resp.remove(resp.size()-1);
 		return resp;
 	}
+	/**
+	 * Este metodo fue usado para revisar la factibilidad a medida que se probaban los resultados
+	 * @param tsp 
+	 * @return true si es factible, false de lo contrario
+	 */
 	public boolean revisarFactibilidad(List<Obra>tsp){
 		for(int i=2;i<tsp.size();i++){
 			Integer l1=Auxiliar.MUNICIPIO_ID.get(tsp.get(i-1).municipio+" - "+tsp.get(i-1).departamento);
@@ -316,27 +326,6 @@ public class Auxiliar {
 		return respuesta;
 	}
 	
-//	public static void main(String[] args) {
-//		Auxiliar a=new Auxiliar();
-//		HeuristicasTSPManagger h=new HeuristicasTSPManagger();
-//		List<Obra>tsp=h.CWJPC();
-//		Ruteo r1=a.split(tsp);
-//		System.out.println("Costos 1: "+r1.costoTotal);
-//		List<Obra>tsp1=a.busquedaLocal(tsp);
-//		Ruteo r2=a.split(tsp1);
-//		System.out.println("Costos 2: "+r2.costoTotal);
-//		System.out.println(a.revisarFactibilidad(tsp1));
-//		System.out.println(a.revisarFactibilidad(tsp));
-////		Ruteo r=a.split(tsp);
-////		System.out.println(r.costoTotal);
-////		for(int i=0;i<r.rutas.size();i++){
-////			Ruta rut=r.rutas.get(i);
-////			System.out.println("Ruta "+i+":");
-////			for(int j=0;j<rut.obras.size();j++){
-////				System.out.println("    "+rut.obras.get(j));
-////			}
-////		}
-//			
-//	}
+
 	
 }

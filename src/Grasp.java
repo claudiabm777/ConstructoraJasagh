@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 
 
 public class Grasp {
-	
+	//-----------------------------------------------------------------------------------------
+	//CONSTANTES--------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------
 	public  final static Integer FO1=1;
 	public  final static Integer FO2=2;
 	public  final static Integer FO3=3;
@@ -85,8 +87,8 @@ public class Grasp {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Metodo que hace set covering de acuerdo a la funcion objetivo que se desea evaluar
+	 * @return Ruteo con las rutas encontradas por el set covering y los costos
 	 */
 	public Ruteo setCovering(){
 		Ruteo resultado=null;
@@ -164,9 +166,9 @@ public class Grasp {
 		 return resultado;
 	}
 	/**
-	 * 
-	 * @param r
-	 * @return
+	 * Da el costo de un ruteo
+	 * @param r lista de las rutas de un ruteo
+	 * @return costo del ruteo
 	 */
 	public Double darCostoRuteo(List<Ruta>r){
 		Double respuesta=0.0;
@@ -175,6 +177,13 @@ public class Grasp {
 		}
 		return respuesta;
 	}
+	
+	/**
+	 * Metodo que imprime los resultados del GRASP + SET COVERING
+	 * @param fo funcion objetivo que se evalua
+	 * @param archivoResultados archivo donde se imprime
+	 * @param r ruteo encontrado por el procedimiento
+	 */
 	public void imprimirResultados(int fo,File archivoResultados,Ruteo r){
 		int numo=0;
 		for(int i=0;i<r.rutas.size();i++){
@@ -263,6 +272,11 @@ public class Grasp {
 		}
 	}
 	
+	/**
+	 * Metodo implementado para imprimir resultados solo de GRASP
+	 * @param archivoResultados archivo donde se va a imprimir
+	 * @param r ruteo encontrado por el procedimiento
+	 */
 	public void imprimirResultadosSoloGrasp(File archivoResultados,Ruteo r){
 		distanciaTotalRecorrida=darDistanciaTotal(r);
 		int numo=0;
@@ -333,22 +347,5 @@ public class Grasp {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		Grasp g=new Grasp(3,4);
-//		g.procedimientoIterativoGrasp();
-//		List<Obra>listObras=Auxiliar.OBRAS;
-//		for(int i=0;i<Auxiliar.OBRAS.size();i++){
-//			 for(int j=0;j<g.listaSetCovering.size();j++){
-//				 if(g.listaSetCovering.get(j).estaObraEnRuta(listObras.get(i))){
-//					 System.out.println(1);
-//				 }else{
-//					 //System.out.println(0);
-//				 }
-//			 }
-//		 }
-//		
-//		//Ruteo r=g.setCovering();
-//		//System.out.println(g.darDistanciaTotal(r));
-//		
-//	}
+
 }

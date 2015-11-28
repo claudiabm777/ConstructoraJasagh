@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 
 
 public class InterfazConstructora extends JFrame implements ActionListener {
+	//Interfaz de la App implementada
 	private ConstructoraJasagh mundo;
 	
 	private JTextField txtSencilla;

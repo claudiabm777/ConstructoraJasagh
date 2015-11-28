@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapViewer {
-	
-	
-	
+	//Esta clase da soporte a los mapas
 	private static String htmlFile;
 	
 	public void mapa(Coordinate center, Coordinate c1, Coordinate c2, ArrayList<Coordinate> coordinates) {
