@@ -3,12 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="lib/gurobi.jar"/>
+	<classpathentry kind="lib" path="lib/license (1).jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-6.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-linux32-6.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-linux64-6.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-mac-6.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-win-6.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-5.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-linux32-5.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-linux64-5.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-mac-5.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-win-5.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/license.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

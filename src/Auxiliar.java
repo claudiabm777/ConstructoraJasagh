@@ -15,7 +15,7 @@ public class Auxiliar {
 	//Tenga en cuenta que todas las unidades de distancia se pasaron a Kilometros, y las de tiempo a horas
 	public final static Double NUMERO_TOTAL_OBRAS=177.0;
 	public final static Double NUMERO_TOTAL_MUNICIPIOS=161.0;
-	public final static Double TIEMPO_MAXIMO_VIAJE=20.0*24.0;
+	public final static Double TIEMPO_MAXIMO_VIAJE=200.0*24.0;
 	public final static Double VELOCIDAD_VEHICULOS=40.0;
 	public final static Double HORAS_DESPUES_LLEGAR_MUNICIPIO=2.0;
 	public final static Double KILOMETROS_POR_GALON=25.0;
